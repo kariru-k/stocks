@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>api</name>
+    </assembly>
+    <members>
+        <member name="M:api.Controllers.StockController.GetAll">
+            <summary>
+            Gets all the stocks that are present
+            </summary>
+            <returns>A list of all the stocks</returns>
+        </member>
+        <member name="M:api.Controllers.StockController.GetById(System.Guid)">
+            <summary>
+            Gets a stock by the id
+            </summary>
+            <param name="id">The Stock ID</param>
+            <returns>The relevant stock based off of the ID provided</returns>
+        </member>
+        <member name="M:api.Controllers.StockController.Create(api.Dtos.Stock.StockRequestDTO)">
+            <summary>
+            Creates a new Stock
+            </summary>
+            <param name="stockRequest">The Stock To Be Added</param>
+            <returns></returns>
+        </member>
+        <member name="T:api.Migrations.init">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.init.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.init.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.init.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:api.Migrations.fix">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.fix.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.fix.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.fix.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
