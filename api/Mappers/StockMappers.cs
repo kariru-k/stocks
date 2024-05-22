@@ -9,9 +9,9 @@ namespace api.Mappers
 {
     public static class StockMappers
     {
-        public static StockDto ToStockDto(this Stock stockModel)
+        public static StockResponseDTO ToStockDto(this Stock stockModel)
         {
-            return new StockDto
+            return new StockResponseDTO
             {
                 Id = stockModel.Id,
                 Symbol = stockModel.Symbol,
@@ -23,7 +23,7 @@ namespace api.Mappers
             };
         }
 
-        public static Stock ToStockFromStockRequestDTO(this StockRequestDTO stockRequest)
+        public static Stock ToStockFromStockRequestDTO(this StockCreateRequestDTO stockRequest)
         {
             DateTime now = DateTime.Now;
             byte[] bytes = BitConverter.GetBytes(now.Ticks);

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Stock;
 using api.Mappers;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
@@ -55,12 +56,66 @@ namespace api.Controllers
         /// <param name="stockRequest">The Stock To Be Added</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Create([FromBody] StockRequestDTO stockRequest)
+        public IActionResult Create([FromBody] StockCreateRequestDTO stockRequest)
         {
             var stockModel = stockRequest.ToStockFromStockRequestDTO();
             _context.Stocks.Add(stockModel);
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetById), new { id = stockModel.Id}, stockModel.ToStockDto());
+        }
+
+        /// <summary>
+        /// Updates the Stock When Given an ID
+        /// </summary>
+        /// <param name="id"><p>The Stock ID</p></param>
+        /// <param name="stockUpdate">The Updated Values of the Stock</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody]StockUpdateRequestDTO stockUpdate)
+        {
+            var stockModel = _context.Stocks.FirstOrDefault(s => s.Id == id);
+
+            if (stockModel == null)
+            {
+                return NotFound();
+            }
+
+            stockModel.Symbol = stockUpdate.Symbol;
+            stockModel.MarketCap = stockUpdate.MarketCap;
+            stockModel.CompanyName = stockUpdate.CompanyName;
+            stockModel.Purchase = stockUpdate.Purchase;
+            stockModel.Industry = stockUpdate.Industry;  
+            stockModel.LastDiv = stockUpdate.LastDiv;
+
+            _context.SaveChanges();
+
+            return Ok(stockModel.ToStockDto());
+        }
+
+
+        /// <summary>
+        /// Deletes the specified stock
+        /// </summary>
+        /// <param name="id">The Stock Id</param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            var stockModel = _context.Stocks.FirstOrDefault(s => s.Id == id);
+            
+            if (stockModel == null)
+            {
+                return NotFound();
+            }
+            
+            _context.Stocks.Remove(stockModel);
+
+            _context.SaveChanges();
+
+            return NoContent();
+
         }
         
     }

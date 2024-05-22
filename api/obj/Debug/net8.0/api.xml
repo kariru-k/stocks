@@ -17,11 +17,19 @@
             <param name="id">The Stock ID</param>
             <returns>The relevant stock based off of the ID provided</returns>
         </member>
-        <member name="M:api.Controllers.StockController.Create(api.Dtos.Stock.StockRequestDTO)">
+        <member name="M:api.Controllers.StockController.Create(api.Dtos.Stock.StockCreateRequestDTO)">
             <summary>
             Creates a new Stock
             </summary>
             <param name="stockRequest">The Stock To Be Added</param>
+            <returns></returns>
+        </member>
+        <member name="M:api.Controllers.StockController.Update(System.Guid,api.Dtos.Stock.StockUpdateRequestDTO)">
+            <summary>
+            Updates the Stock When Given an ID
+            </summary>
+            <param name="id"><p>The Stock ID</p></param>
+            <param name="stockUpdate">The Updated Values of the Stock</param>
             <returns></returns>
         </member>
         <member name="T:api.Migrations.init">
