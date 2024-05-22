@@ -7,6 +7,7 @@ using api.Dtos.Stock;
 using api.Mappers;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -26,10 +27,13 @@ namespace api.Controllers
         /// </summary>
         /// <returns>A list of all the stocks</returns>
         [HttpGet]
-        public IActionResult GetAll()
+        [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+        public async Task<IActionResult> GetAll()
         {
-            var stocks = _context.Stocks.ToList()
-                .Select(s => s.ToStockDto());
+            var stocks = await _context.Stocks.ToListAsync();
+
+            var stockDTO = stocks.Select(s => s.ToStockDto());
+
             return Ok(stocks);
         }
 
@@ -39,8 +43,10 @@ namespace api.Controllers
         /// <param name="id">The Stock ID</param>
         /// <returns>The relevant stock based off of the ID provided</returns>
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] Guid id){
-            var stock = _context.Stocks.Find(id);
+        [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+        public async Task<IActionResult> GetById([FromRoute] Guid id){
+            
+            var stock = await _context.Stocks.FindAsync(id);
 
             if (stock == null)
             {
@@ -56,11 +62,14 @@ namespace api.Controllers
         /// <param name="stockRequest">The Stock To Be Added</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult Create([FromBody] StockCreateRequestDTO stockRequest)
+        [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Post))]
+        public async Task<IActionResult> Create([FromBody] StockCreateRequestDTO stockRequest)
         {
             var stockModel = stockRequest.ToStockFromStockRequestDTO();
-            _context.Stocks.Add(stockModel);
-            _context.SaveChanges();
+
+            await _context.Stocks.AddAsync(stockModel);
+            await _context.SaveChangesAsync();
+
             return CreatedAtAction(nameof(GetById), new { id = stockModel.Id}, stockModel.ToStockDto());
         }
 
@@ -72,9 +81,10 @@ namespace api.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody]StockUpdateRequestDTO stockUpdate)
+        [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody]StockUpdateRequestDTO stockUpdate)
         {
-            var stockModel = _context.Stocks.FirstOrDefault(s => s.Id == id);
+            var stockModel = await _context.Stocks.FirstOrDefaultAsync(s => s.Id == id);
 
             if (stockModel == null)
             {
@@ -88,7 +98,7 @@ namespace api.Controllers
             stockModel.Industry = stockUpdate.Industry;  
             stockModel.LastDiv = stockUpdate.LastDiv;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok(stockModel.ToStockDto());
         }
@@ -101,9 +111,10 @@ namespace api.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Delete))]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var stockModel = _context.Stocks.FirstOrDefault(s => s.Id == id);
+            var stockModel = await _context.Stocks.FirstOrDefaultAsync(s => s.Id == id);
             
             if (stockModel == null)
             {
@@ -112,10 +123,9 @@ namespace api.Controllers
             
             _context.Stocks.Remove(stockModel);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return NoContent();
-
         }
         
     }

@@ -32,6 +32,13 @@
             <param name="stockUpdate">The Updated Values of the Stock</param>
             <returns></returns>
         </member>
+        <member name="M:api.Controllers.StockController.Delete(System.Guid)">
+            <summary>
+            Deletes the specified stock
+            </summary>
+            <param name="id">The Stock Id</param>
+            <returns></returns>
+        </member>
         <member name="T:api.Migrations.init">
             <inheritdoc />
         </member>
