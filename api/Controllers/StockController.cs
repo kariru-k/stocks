@@ -3,6 +3,7 @@ using api.Dtos.Stock;
 using api.Interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
@@ -27,6 +28,7 @@ namespace api.Controllers
         /// </summary>
         /// <returns>A list of all the stocks</returns>
         [HttpGet]
+        [OutputCache(Duration = 600)]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
         public async Task<IActionResult> GetAll()
         {
@@ -43,6 +45,7 @@ namespace api.Controllers
         /// <param name="id">The Stock ID</param>
         /// <returns>The relevant stock based off of the ID provided</returns>
         [HttpGet("{id}")]
+        [OutputCache(Duration = 600)]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
         public async Task<IActionResult> GetById([FromRoute] Guid id){
             

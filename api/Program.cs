@@ -28,7 +28,11 @@ builder.Services.AddDbContext<ApplicationDBContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddOutputCache();
+builder.Services.AddOutputCache().AddStackExchangeRedisCache(x =>
+{
+    x.InstanceName = "Finshark";
+    x.Configuration = "localhost:6379";
+});
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 
