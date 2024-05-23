@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Stock;
+using api.Interfaces;
 using api.Mappers;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,10 +14,14 @@ namespace api.Controllers
     public class StockController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public StockController(ApplicationDBContext context)
+        private readonly IStockRepository _stockRepository;
+        
+        public StockController(ApplicationDBContext context, IStockRepository stockRepository)
         {
             _context = context;
+            _stockRepository = stockRepository;
         }
+        
         /// <summary>
         /// Gets all the stocks that are present
         /// </summary>
@@ -30,9 +30,9 @@ namespace api.Controllers
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
         public async Task<IActionResult> GetAll()
         {
-            var stocks = await _context.Stocks.ToListAsync();
+            var stocks = await _stockRepository.GetAllAsync();
 
-            var stockDTO = stocks.Select(s => s.ToStockDto());
+            var stockDto = stocks.Select(s => s.ToStockDto());
 
             return Ok(stocks);
         }
@@ -46,8 +46,8 @@ namespace api.Controllers
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
         public async Task<IActionResult> GetById([FromRoute] Guid id){
             
-            var stock = await _context.Stocks.FindAsync(id);
-
+            var stock = await _stockRepository.GetByIdAsync(id);
+            
             if (stock == null)
             {
                 return NotFound();
@@ -66,9 +66,7 @@ namespace api.Controllers
         public async Task<IActionResult> Create([FromBody] StockCreateRequestDTO stockRequest)
         {
             var stockModel = stockRequest.ToStockFromStockRequestDTO();
-
-            await _context.Stocks.AddAsync(stockModel);
-            await _context.SaveChangesAsync();
+            await _stockRepository.CreateAsync(stockModel);
 
             return CreatedAtAction(nameof(GetById), new { id = stockModel.Id}, stockModel.ToStockDto());
         }
@@ -84,22 +82,13 @@ namespace api.Controllers
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody]StockUpdateRequestDTO stockUpdate)
         {
-            var stockModel = await _context.Stocks.FirstOrDefaultAsync(s => s.Id == id);
+            var stockModel = await _stockRepository.UpdateAsync(id, stockUpdate);
 
             if (stockModel == null)
             {
                 return NotFound();
             }
-
-            stockModel.Symbol = stockUpdate.Symbol;
-            stockModel.MarketCap = stockUpdate.MarketCap;
-            stockModel.CompanyName = stockUpdate.CompanyName;
-            stockModel.Purchase = stockUpdate.Purchase;
-            stockModel.Industry = stockUpdate.Industry;  
-            stockModel.LastDiv = stockUpdate.LastDiv;
-
-            await _context.SaveChangesAsync();
-
+            
             return Ok(stockModel.ToStockDto());
         }
 
@@ -114,17 +103,13 @@ namespace api.Controllers
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Delete))]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var stockModel = await _context.Stocks.FirstOrDefaultAsync(s => s.Id == id);
+            var stockModel = await _stockRepository.DeleteAsync(id);
             
             if (stockModel == null)
             {
                 return NotFound();
             }
             
-            _context.Stocks.Remove(stockModel);
-
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
         

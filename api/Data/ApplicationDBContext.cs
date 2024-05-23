@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Data
@@ -14,7 +15,7 @@ namespace api.Data
             
         }
 
-        public DbSet<Models.Stock> Stocks { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
         public DbSet<Models.Comment> Comments { get; set; }
     }
 }
