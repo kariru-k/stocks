@@ -4,6 +4,12 @@
         <name>api</name>
     </assembly>
     <members>
+        <member name="M:api.Controllers.CommentController.GetAll">
+            <summary>
+            Retrieves all the comments
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:api.Controllers.StockController.GetAll">
             <summary>
             Gets all the stocks that are present
@@ -61,6 +67,18 @@
             <inheritdoc />
         </member>
         <member name="M:api.Migrations.fix.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:api.Migrations.anotherone">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.anotherone.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.anotherone.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.anotherone.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

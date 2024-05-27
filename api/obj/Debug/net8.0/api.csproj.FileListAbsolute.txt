@@ -153,3 +153,7 @@
 /home/keith/Documents/dotnetProjects/finshark/api/bin/Debug/net8.0/System.Text.Encodings.Web.dll
 /home/keith/Documents/dotnetProjects/finshark/api/bin/Debug/net8.0/System.Text.Json.dll
 /home/keith/Documents/dotnetProjects/finshark/api/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+/home/keith/Documents/dotnetProjects/finshark/api/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
+/home/keith/Documents/dotnetProjects/finshark/api/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+/home/keith/Documents/dotnetProjects/finshark/api/bin/Debug/net8.0/Newtonsoft.Json.dll
+/home/keith/Documents/dotnetProjects/finshark/api/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
