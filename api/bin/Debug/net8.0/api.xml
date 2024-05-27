@@ -17,6 +17,29 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:api.Controllers.CommentController.Create(System.Guid,api.Dtos.Comment.CommentCreateRequestDTO)">
+            <summary>
+            Creates a new comment
+            </summary>
+            <param name="stockId">Stock the comment is related to</param>
+            <param name="commentDTO">The Comment Schema</param>
+            <returns></returns>
+        </member>
+        <member name="M:api.Controllers.CommentController.Update(System.Guid,api.Dtos.Comment.CommentUpdateRequestDTO)">
+            <summary>
+            Updates an existing comment
+            </summary>
+            <param name="id">The Comment ID</param>
+            <param name="commentUpdateRequestDto">The updated comment details</param>
+            <returns></returns>
+        </member>
+        <member name="M:api.Controllers.CommentController.Delete(System.Guid)">
+            <summary>
+            Deletes an existing comment
+            </summary>
+            <param name="id">the comment id</param>
+            <returns></returns>
+        </member>
         <member name="M:api.Controllers.StockController.GetAll">
             <summary>
             Gets all the stocks that are present

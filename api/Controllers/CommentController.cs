@@ -58,6 +58,12 @@ public class CommentController : ControllerBase
         return Ok(comment.ToCommentDto());
     }
 
+    /// <summary>
+    /// Creates a new comment
+    /// </summary>
+    /// <param name="stockId">Stock the comment is related to</param>
+    /// <param name="commentDTO">The Comment Schema</param>
+    /// <returns></returns>
     [HttpPost("{stockId}")]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Post))]
     public async Task<IActionResult> Create([FromRoute] Guid stockId, [FromBody] CommentCreateRequestDTO commentDTO)
@@ -73,6 +79,12 @@ public class CommentController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel.ToCommentDto());
     }
 
+    /// <summary>
+    /// Updates an existing comment
+    /// </summary>
+    /// <param name="id">The Comment ID</param>
+    /// <param name="commentUpdateRequestDto">The updated comment details</param>
+    /// <returns></returns>
     [HttpPut]
     [Route("{id}")]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
@@ -89,5 +101,25 @@ public class CommentController : ControllerBase
 
         return Ok(comment.ToCommentDto());
 
+    }
+
+    /// <summary>
+    /// Deletes an existing comment
+    /// </summary>
+    /// <param name="id">the comment id</param>
+    /// <returns></returns>
+    [HttpDelete]
+    [Route("{id}")]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Delete))]
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    {
+        var comment = await _commentRepository.DeleteAsync(id: id);
+
+        if (comment == null)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
     }
 }
