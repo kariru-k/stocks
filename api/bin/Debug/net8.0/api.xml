@@ -10,6 +10,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:api.Controllers.CommentController.GetById(System.Guid)">
+            <summary>
+            Get a comment by its id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:api.Controllers.StockController.GetAll">
             <summary>
             Gets all the stocks that are present

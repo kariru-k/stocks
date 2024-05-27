@@ -13,6 +13,8 @@ namespace api.Interfaces
 
         Task<Stock?> DeleteAsync(Guid id);
 
+        Task<bool> StockExists(Guid id);
+
 
     }
 }
