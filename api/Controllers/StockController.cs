@@ -1,5 +1,6 @@
 using api.Data;
 using api.Dtos.Stock;
+using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,9 @@ namespace api.Controllers
         [HttpGet]
         [OutputCache(Duration = 600)]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject queryObject)
         {
-            var stocks = await stockRepository.GetAllAsync();
+            var stocks = await stockRepository.GetAllAsync(queryObject);
 
             var stockDto = stocks.Select(s => s.ToStockDto());
 
@@ -34,11 +35,14 @@ namespace api.Controllers
         /// </summary>
         /// <param name="id">The Stock ID</param>
         /// <returns>The relevant stock based off of the ID provided</returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         [OutputCache(Duration = 600)]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
         public async Task<IActionResult> GetById([FromRoute] Guid id){
-            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var stock = await stockRepository.GetByIdAsync(id);
             
             if (stock == null)
@@ -58,6 +62,10 @@ namespace api.Controllers
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Post))]
         public async Task<IActionResult> Create([FromBody] StockCreateRequestDTO stockRequest)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var stockModel = stockRequest.ToStockFromStockRequestDto();
             await stockRepository.CreateAsync(stockModel);
 
@@ -71,10 +79,14 @@ namespace api.Controllers
         /// <param name="stockUpdate">The Updated Values of the Stock</param>
         /// <returns></returns>
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody]StockUpdateRequestDTO stockUpdate)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var stockModel = await stockRepository.UpdateAsync(id, stockUpdate);
 
             if (stockModel == null)
@@ -92,10 +104,14 @@ namespace api.Controllers
         /// <param name="id">The Stock Id</param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Delete))]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var stockModel = await stockRepository.DeleteAsync(id);
             
             if (stockModel == null)

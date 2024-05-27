@@ -40,7 +40,7 @@
             <param name="id">the comment id</param>
             <returns></returns>
         </member>
-        <member name="M:api.Controllers.StockController.GetAll">
+        <member name="M:api.Controllers.StockController.GetAll(api.Helpers.QueryObject)">
             <summary>
             Gets all the stocks that are present
             </summary>

@@ -43,11 +43,15 @@ public class CommentController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     [OutputCache(Duration = 600)]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public async Task<IActionResult> GetById(Guid id)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var comment = await _commentRepository.GetByIdAsync(id);
 
         if (comment == null)
@@ -64,10 +68,14 @@ public class CommentController : ControllerBase
     /// <param name="stockId">Stock the comment is related to</param>
     /// <param name="commentDTO">The Comment Schema</param>
     /// <returns></returns>
-    [HttpPost("{stockId}")]
+    [HttpPost("{stockId:guid}")]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Post))]
     public async Task<IActionResult> Create([FromRoute] Guid stockId, [FromBody] CommentCreateRequestDTO commentDTO)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         if (!await _stockRepository.StockExists(stockId))
         {
             return BadRequest("Stock Does Not Exist");
@@ -86,11 +94,15 @@ public class CommentController : ControllerBase
     /// <param name="commentUpdateRequestDto">The updated comment details</param>
     /// <returns></returns>
     [HttpPut]
-    [Route("{id}")]
+    [Route("{id:guid}")]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public async Task<IActionResult> Update([FromRoute] Guid id,
         [FromBody] CommentUpdateRequestDTO commentUpdateRequestDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var comment =
             await _commentRepository.UpdateAsync(id, commentUpdateRequestDto.ToCommentFromCommentUpdateDto());
 
@@ -109,10 +121,14 @@ public class CommentController : ControllerBase
     /// <param name="id">the comment id</param>
     /// <returns></returns>
     [HttpDelete]
-    [Route("{id}")]
+    [Route("{id:guid}")]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Delete))]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var comment = await _commentRepository.DeleteAsync(id: id);
 
         if (comment == null)
