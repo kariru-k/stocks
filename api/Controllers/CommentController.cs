@@ -1,14 +1,18 @@
 using api.Dtos.Comment;
 using api.Interfaces;
 using api.Mappers;
+using api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace api.Controllers;
 
 
 [Route("api/comment")]
 [ApiController]
+[ApiConventionType(typeof(DefaultApiConventions))]
+[Produces("application/json")]
 public class CommentController : ControllerBase
 {
     private readonly ICommentRepository _commentRepository;
@@ -24,18 +28,19 @@ public class CommentController : ControllerBase
     /// Retrieves all the comments
     /// </summary>
     /// <returns></returns>
+    /// 
     [HttpGet]
     [OutputCache(Duration = 600)]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+    [SwaggerResponse(200, "Returns all the Comments", typeof(List<CommentResponseDto>))]
+    [SwaggerResponse(400, "Unable to fetch Any comments")]
     public async Task<IActionResult> GetAll()
     {
         var comments = await _commentRepository.GetAllAsync();
 
-        var commentDto = comments.Select(s => s.ToCommentDto());
+        var commentDto = comments.Select(s => s.ToCommentResponseDto());
 
         return Ok(commentDto);
-
-
     }
 
     /// <summary>
@@ -59,7 +64,7 @@ public class CommentController : ControllerBase
             return NotFound();
         }
 
-        return Ok(comment.ToCommentDto());
+        return Ok(comment.ToCommentResponseDto());
     }
 
     /// <summary>
@@ -84,7 +89,7 @@ public class CommentController : ControllerBase
         var commentModel = commentDTO.ToCommentFromCommentRequestDto(stockId);
 
         await _commentRepository.CreateAsync(commentModel);
-        return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel.ToCommentDto());
+        return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel.ToCommentResponseDto());
     }
 
     /// <summary>
@@ -111,7 +116,7 @@ public class CommentController : ControllerBase
             return NotFound("Comment not found");
         }
 
-        return Ok(comment.ToCommentDto());
+        return Ok(comment.ToCommentResponseDto());
 
     }
 

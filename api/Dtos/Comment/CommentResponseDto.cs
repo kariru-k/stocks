@@ -1,6 +1,6 @@
 namespace api.Dtos.Comment;
 
-public class CommentDTO
+public class CommentResponseDto
 {
     public Guid? Id { get; set; }
     public string Title { get; set; } = string.Empty;

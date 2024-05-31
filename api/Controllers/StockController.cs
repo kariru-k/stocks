@@ -4,41 +4,47 @@ using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.OutputCaching;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace api.Controllers
 {
     [Route("api/stock")]
     [ApiController]
-    [ApiConventionType(typeof(DefaultApiConventions))]
     [Produces("application/json")]
     public class StockController(IStockRepository stockRepository) : ControllerBase
     {
-        /// <summary>
-        /// Gets all the stocks that are present
-        /// </summary>
-        /// <returns>A list of all the stocks</returns>
         [HttpGet]
         [OutputCache(Duration = 600)]
-        [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+        [SwaggerOperation(
+            Summary = "Gets all stocks",
+            OperationId = "GetAllStocks"
+            )
+        ]
+        [SwaggerResponse(200, "Returned all the stocks", typeof(List<StockResponseDTO>))]
+        [SwaggerResponse(500)]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject queryObject)
         {
             var stocks = await stockRepository.GetAllAsync(queryObject);
 
             var stockDto = stocks.Select(s => s.ToStockDto());
 
-            return Ok(stocks);
+            return Ok(stockDto);
         }
 
-        /// <summary>
-        /// Gets a stock by the id
-        /// </summary>
-        /// <param name="id">The Stock ID</param>
-        /// <returns>The relevant stock based off of the ID provided</returns>
+       
         [HttpGet("{id:guid}")]
         [OutputCache(Duration = 600)]
-        [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
-        public async Task<IActionResult> GetById([FromRoute] Guid id){
+        [SwaggerOperation(
+                Summary = "Gets an individual stock based on its id",
+                OperationId = "GetStockByID"
+            )
+        ]
+        [SwaggerResponse(statusCode: 200, description: "The stock is returned", Type = typeof(StockResponseDTO))]
+        [SwaggerResponse(statusCode: 400, description: "Bad Request")]
+        [SwaggerResponse(statusCode: 404)]
+        public async Task<IActionResult> GetById([FromRoute, SwaggerParameter("The Stock Id", Required = true)] Guid id){
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

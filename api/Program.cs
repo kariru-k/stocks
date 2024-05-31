@@ -19,7 +19,7 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Finshark APIs",
         Description = "An ASP.NET Core Web API for managing stocks",
     });
-
+    options.EnableAnnotations();
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });

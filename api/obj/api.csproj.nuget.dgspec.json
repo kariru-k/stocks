@@ -1,25 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "/home/keith/Documents/dotnetProjects/finshark/api/api.csproj": {}
+    "C:\\Users\\HomePC\\RiderProjects\\stocks\\api\\api.csproj": {}
   },
   "projects": {
-    "/home/keith/Documents/dotnetProjects/finshark/api/api.csproj": {
+    "C:\\Users\\HomePC\\RiderProjects\\stocks\\api\\api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/keith/Documents/dotnetProjects/finshark/api/api.csproj",
+        "projectUniqueName": "C:\\Users\\HomePC\\RiderProjects\\stocks\\api\\api.csproj",
         "projectName": "api",
-        "projectPath": "/home/keith/Documents/dotnetProjects/finshark/api/api.csproj",
-        "packagesPath": "/home/keith/.nuget/packages/",
-        "outputPath": "/home/keith/Documents/dotnetProjects/finshark/api/obj/",
+        "projectPath": "C:\\Users\\HomePC\\RiderProjects\\stocks\\api\\api.csproj",
+        "packagesPath": "C:\\Users\\HomePC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\HomePC\\RiderProjects\\stocks\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/keith/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\HomePC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -98,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.105/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

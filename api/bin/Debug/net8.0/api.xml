@@ -9,6 +9,7 @@
             Retrieves all the comments
             </summary>
             <returns></returns>
+            
         </member>
         <member name="M:api.Controllers.CommentController.GetById(System.Guid)">
             <summary>
@@ -39,19 +40,6 @@
             </summary>
             <param name="id">the comment id</param>
             <returns></returns>
-        </member>
-        <member name="M:api.Controllers.StockController.GetAll(api.Helpers.QueryObject)">
-            <summary>
-            Gets all the stocks that are present
-            </summary>
-            <returns>A list of all the stocks</returns>
-        </member>
-        <member name="M:api.Controllers.StockController.GetById(System.Guid)">
-            <summary>
-            Gets a stock by the id
-            </summary>
-            <param name="id">The Stock ID</param>
-            <returns>The relevant stock based off of the ID provided</returns>
         </member>
         <member name="M:api.Controllers.StockController.Create(api.Dtos.Stock.StockCreateRequestDTO)">
             <summary>
@@ -109,6 +97,18 @@
             <inheritdoc />
         </member>
         <member name="M:api.Migrations.anotherone.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:api.Migrations.windows">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.windows.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.windows.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations.windows.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>
